@@ -133,3 +133,19 @@ function getExcerpt($str, $startPos=0, $maxLength=120) {
 	return $excerpt;
 }
  
+ //Get number of 30 minute segments
+ function get_30_segments( $startTime, $endTime ){
+    $time_diff = strtotime( $endTime ) - strtotime( $startTime );
+    $how_many_30 = ($time_diff / 1800);
+    return $how_many_30;
+ }
+ 
+ //find current event
+ function is_current_res($appt_start, $appt_end, $current_moment){
+     
+    if( strtotime( $appt_start ) <= $current_moment && strtotime( $appt_end ) >= $current_moment  ){
+        return true;
+    }else{
+        return false;
+    }
+ }

@@ -1,0 +1,102 @@
+/**
+*
+*Single style sheet for customizing the output for room reservation calendar
+*
+*/
+
+//Variables
+$midnight:               #333f48;
+$midnight-60:            #8b929d;
+$midnight-40:            #bdc1c7;
+$midnight-20:            lighten( $midnight-40, 5% );
+$white:                  white;
+$call-to-action:        #29abe2;
+
+
+//simple mixins
+@mixin bold-header{
+        text-transform: uppercase;
+        font-weight: bold;    
+}
+
+
+html{
+    font-size: 2.5vh;
+}
+
+body{
+    font-family: "Gotham Narrow A", "Gotham Narrow B", Arial, sans-serif;
+}
+
+.fwf-res-container{
+    background-color: $white;
+    box-sizing: border-box;
+    padding: 1em;
+    //height: 100vh;
+    
+    & > * {
+        box-sizing: border-box;
+        text-align:center;
+    }
+}
+
+.fwf-l-res-time-slot{
+
+    &--free{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: $white;
+    color: $call-to-action;
+    margin: .3em;
+    box-shadow: 0 10px 6px -6px rgba( $midnight-40, .6 );
+    border: 1px solid $midnight-20;
+    padding: 1em;
+    }
+    
+    &--occupied{
+    justify-content: center;
+    display: flex;
+    flex-direction: row;        
+    align-items: center;
+    background-color: $midnight-20;
+    margin: .3em;
+    box-shadow: 0 10px 6px -6px rgba( $midnight-40, .6 );
+    padding: 1em;
+    
+    }
+}
+
+.fwf-l-occupied__container{
+    padding: 0 2em;
+    
+    &:last-of-type{
+        border-left: 1px solid $midnight-60;
+    }
+    
+    .fwf-c-occupied__header{
+        @include bold-header;
+    }
+}
+
+.fwf-l-free__container{
+    
+    .fwf-c-free__header{
+        @include bold-header;        
+    }
+}
+
+.fwf-c-res-time-slot--current{
+    // height: 7vh;
+    // width: 7vh;
+    background-color: $midnight;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    //border-radius: 50%;
+    font-size: 2em;
+    color: white;
+    padding: .2em .3em;
+}

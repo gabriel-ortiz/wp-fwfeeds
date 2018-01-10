@@ -2,6 +2,8 @@
 
 namespace FWF\Includes\LibraryHours;
 
+use DateTime;
+use DateTimeZone;
 /**
  * 
  * Set up defaults and run hooks and filters on setup
@@ -18,7 +20,14 @@ namespace FWF\Includes\LibraryHours;
  }
  
  function get_library_hours( $lib_id ){
-     	// turn array/object into query string
+    //setup time variables
+    $today				= new DateTime('now', new DateTimeZone('America/Los_Angeles'));
+    $formatted_date 	= $today->format('m/d');
+    $formatted_time 	= $today->format('g:i a');
+    $today_timeStamped	= $today->getTimestamp();
+    
+    // turn array/object into query string
+    $ReadyForFW = array();
     
     $params = array(
         'iid'       => '333',
@@ -33,12 +42,33 @@ namespace FWF\Includes\LibraryHours;
 	
 	$library_hours = json_decode( $request['body'], true );
 	
-	if ( is_wp_error ( $request ) ) {
+	if ( $request['response']['code'] !== 200 ) {
     	//return $request->get_error_message();
-	    $ReadyForFW['error'] =  $request->get_error_message();
-	}else{
-	    
-	    return  $library_hours ;
+	    $ReadyForFW['error'] =  $request['response']['code'];
 	}
+	
+	//construct the array with useful images for display
+	$time_display = array(
+	    'formatted_date'    => $formatted_date,
+	    'formatted_time'    => $formatted_time,
+	    "time_and_date"     => $formatted_date . " | " . $formatted_time,
+	    'clock_icon'        => FWF_IMAGES . 'time.png',
+	    'calendar_icon'     => FWF_IMAGES . 'calendar.png',
+	    'phone_icon'        => FWF_IMAGES . 'telephone.png',
+	    'email_icon'        => FWF_IMAGES . 'envelope.png',
+	    'res_QR'            => FWF_IMAGES . 'room-res-QR.png'
+	    );
+	 
+	 //add all the array of useful images to the fourwinds feed
+	 array_push( $ReadyForFW, $time_display );
+	 
+	 //loop through and un-nest the location data
+	 foreach($library_hours['locations'] as $location){
+	     
+	    array_push( $ReadyForFW, $location);
+	 }
+	 
+	 //return the compiled array of data
+	 return $ReadyForFW;
 	
  }

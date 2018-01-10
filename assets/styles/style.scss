@@ -4,9 +4,10 @@ Custom styles in Sass for WMS Searchbox
 
 */
 
-@import 'base/_all.scss';
-@import 'mixins/_all.scss';
-@import 'layout/_all.scss';
-@import 'components/all.scss';
+//@import 'base/_all.scss';
+//@import 'mixins/_all.scss';
+//@import 'layout/_all.scss';
+//@import 'components/all.scss';
 
-@include init($breakpoints, $columns);
+//@include init($breakpoints, $columns);
+@import '_single-style.scss';

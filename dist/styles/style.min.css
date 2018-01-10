@@ -1,0 +1,108 @@
+/*!
+
+Custom styles in Sass for WMS Searchbox
+
+*/
+/**
+*
+*Single style sheet for customizing the output for room reservation calendar
+*
+*/
+html {
+  font-size: 2.5vh;
+}
+
+body {
+  font-family: "Gotham Narrow A", "Gotham Narrow B", Arial, sans-serif;
+}
+
+.fwf-res-container {
+  background-color: white;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 1em;
+}
+.fwf-res-container > * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+}
+
+.fwf-l-res-time-slot--free {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: white;
+  color: #29abe2;
+  margin: .3em;
+  -webkit-box-shadow: 0 10px 6px -6px rgba(189, 193, 199, 0.6);
+          box-shadow: 0 10px 6px -6px rgba(189, 193, 199, 0.6);
+  border: 1px solid #cbced3;
+  padding: 1em;
+}
+.fwf-l-res-time-slot--occupied {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #cbced3;
+  margin: .3em;
+  -webkit-box-shadow: 0 10px 6px -6px rgba(189, 193, 199, 0.6);
+          box-shadow: 0 10px 6px -6px rgba(189, 193, 199, 0.6);
+  padding: 1em;
+}
+
+.fwf-l-occupied__container {
+  padding: 0 2em;
+}
+.fwf-l-occupied__container:last-of-type {
+  border-left: 1px solid #8b929d;
+}
+.fwf-l-occupied__container .fwf-c-occupied__header {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.fwf-l-free__container .fwf-c-free__header {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.fwf-c-res-time-slot--current {
+  background-color: #333f48;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 2em;
+  color: white;
+  padding: .2em .3em;
+}

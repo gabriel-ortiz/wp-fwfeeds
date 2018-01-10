@@ -28,6 +28,7 @@ define( 'FWF_LIBRARIES', plugin_dir_path( __FILE__ ).'Libraries/');
 
 //global style urls
 define('FWF_ASSETS', plugins_url().'/fwfeeds/assets/');
+define('FWF_IMAGES', plugins_url().'/fwfeeds/assets/images/');
 define('FWF_IMAGES_GEAR', plugins_url().'/fwfeeds/assets/images/gear-icon.png');
 define('FWF_IMAGES_CCL', plugins_url().'/fwfeeds/assets/images/Mudd1.jpg');
 define('FWF_DIST', plugins_url().'/fwfeeds/dist/');
@@ -40,6 +41,7 @@ if ( ! defined( 'MINUTE_IN_SECONDS' ) ) {
 //require_once plugin_dir_path( __FILE__ ) . 'includes/core-functions.php';
 require_once( FWF_LIBRARIES . 'extended-cpts.php' );
 require_once( FWF_LIBRARIES . 'extended-taxos.php' );
+require_once( FWF_INC . 'register-templates.php' );
 require_once( FWF_INC . 'api-helpers.php' );
 require_once( FWF_INC . 'libcal.php' );
 require_once( FWF_INC . 'libguides.php' );
@@ -72,7 +74,7 @@ if ( is_admin() ) {
 
 
 //RUN THE PUBLIC FUNCTIONS
-//FWF\Title\setup();
+FWF\Includes\RegisterTemplates\setup();
 
 // default plugin options
 // function myplugin_options_default() {

@@ -92,29 +92,44 @@ use \FWF\Includes\APIHelpers as APIHelpers;
 	
 	//loop through all availability, convert time and add to array
 	foreach( $all_availability as $timeSlot ){
-		$slot_data				= array();
-		$slot_data['fromDate']	= APIHelpers\fixDateTime( $timeSlot['from'] );
-		$slot_data['toDate']	= APIHelpers\fixDateTime( $timeSlot['to'] );
-		$slot_data['status']	= 'Available';
+		$slot_data					= array();
+		$slot_data['fromDate']		= APIHelpers\fixDateTime( $timeSlot['from'] );
+		$slot_data['toDate']		= APIHelpers\fixDateTime( $timeSlot['to'] );
+		$slot_data['rendered_time']	= $slot_data['fromDate'] . ' - ' . $slot_data['toDate'];
+		$slot_data['status']		= 'Available';
+		
+		//calculate the number of 30 minute segments for flex-grow in display
+		//@params $startTime, $endTime 
+		$slot_data['30_min_seg'] = APIHelpers\get_30_segments( $slot_data['fromDate'] , $slot_data['toDate'] );
+		
+		//idenitfy the current time slot so we can add an icon to display
+		//@params $appt_start, $appt_end, $current_moment
+		$slot_data['is_current'] = APIHelpers\is_current_res( $slot_data['from'], $slot_data['to'], $today_timeStamped );		
 		
 		array_push( $ReadyForFW, $slot_data );
 	}
 	
 	//add each booking reservation to the fourwinds array
 	foreach( $bookings as $booking ){
+		
 		//check to make sure we are only adding the reservations for this specifc room
 		if( $booking['eid'] != $space_id ) continue;
 		
-		$booking_data 				= array();
-		$booking_data['fromDate']   = APIHelpers\fixDateTime( $booking['fromDate'] );
-		$booking_data['toDate']     = APIHelpers\fixDateTime( $booking['toDate'] );
-		$booking_data['confirm_num']= $booking['bookId'];
-		$booking_data['status']		= $booking['status'];
+		//skip over events in the past
+		if( strtotime( $booking['toDate'] ) < $today_timeStamped ) continue;
 		
-		$time_diff = strtotime( $booking_data['toDate'] ) - strtotime( $booking_data['fromDate']  );
-		$how_many_30 = ($time_diff / 1800);
-
-		$booking_data['30_min_seg'] = $how_many_30;
+		$booking_data 					= array();
+		$booking_data['fromDate']   	= APIHelpers\fixDateTime( $booking['fromDate'] );
+		$booking_data['toDate']     	= APIHelpers\fixDateTime( $booking['toDate'] );
+		$booking_data['rendered_time']	= $booking_data['fromDate'] . ' - ' . $booking_data['toDate'] ;
+		$booking_data['confirm_num']	= $booking['bookId'];
+		$booking_data['status']			= $booking['status'];
+		
+		//get the number of 30 minute segments
+		$booking_data['30_min_seg'] = APIHelpers\get_30_segments( $booking_data['fromDate'] , $booking_data['toDate'] );
+		
+		//@params $appt_start, $appt_end, $current_moment
+		$booking_data['is_current'] = APIHelpers\is_current_res( $booking['fromDate'], $booking['toDate'], $today_timeStamped );
 		
 		array_push( $ReadyForFW, $booking_data );
 	}

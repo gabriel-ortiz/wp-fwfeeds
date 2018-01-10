@@ -1,5 +1,5 @@
 {
-  "name": "gabriel-ortiz-art",
+  "name": "fwfeeds",
   "version": "1.0.0",
   "description": "Custom wordpress theme for artist website.",
   "license": "MIT",
@@ -10,7 +10,7 @@
   "author": "Gabriel Ortiz",
   "devDependencies": {
     "browser-sync": "^2.18.13",
-    "gulp": "^3.9.11",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-notify": "^3.0.0",
