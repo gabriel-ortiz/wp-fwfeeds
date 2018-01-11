@@ -9,6 +9,7 @@ $midnight:               #333f48;
 $midnight-60:            #8b929d;
 $midnight-40:            #bdc1c7;
 $midnight-20:            lighten( $midnight-40, 5% );
+$light-gray:            #efefef;
 $white:                  white;
 $call-to-action:        #29abe2;
 
@@ -19,19 +20,31 @@ $call-to-action:        #29abe2;
         font-weight: bold;    
 }
 
+@mixin now-styling{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    padding: .2em .3em;
+}
 
+//styling
 html{
-    font-size: 2.5vh;
+    font-size: 1.2vh;
+    height: 100vh;
 }
 
 body{
     font-family: "Gotham Narrow A", "Gotham Narrow B", Arial, sans-serif;
+    height: 100vh;
+    background-color: $light-gray;    
 }
 
 .fwf-res-container{
-    background-color: $white;
     box-sizing: border-box;
     padding: 1em;
+
     //height: 100vh;
     
     & > * {
@@ -49,10 +62,17 @@ body{
     align-items: center;
     background-color: $white;
     color: $call-to-action;
-    margin: .3em;
+    margin: .1em;
     box-shadow: 0 10px 6px -6px rgba( $midnight-40, .6 );
     border: 1px solid $midnight-20;
     padding: 1em;
+    
+        .fwf-c-res-time-slot--current{
+            @include now-styling;
+            color: $midnight;
+            background-color: $light-gray;
+        }        
+        
     }
     
     &--occupied{
@@ -61,10 +81,17 @@ body{
     flex-direction: row;        
     align-items: center;
     background-color: $midnight-20;
-    margin: .3em;
+    margin: .1em;
     box-shadow: 0 10px 6px -6px rgba( $midnight-40, .6 );
     padding: 1em;
+    border: 1px solid $midnight-40;    
     
+    .fwf-c-res-time-slot--current{
+        @include now-styling;
+        color: $white;
+        background-color: $midnight;
+    }    
+        
     }
 }
 
@@ -88,16 +115,3 @@ body{
     }
 }
 
-.fwf-c-res-time-slot--current{
-    // height: 7vh;
-    // width: 7vh;
-    background-color: $midnight;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    //border-radius: 50%;
-    font-size: 1em;
-    color: white;
-    padding: .2em .3em;
-}
