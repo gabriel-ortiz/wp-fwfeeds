@@ -82,6 +82,9 @@ body {
   font-weight: bold;
 }
 
+.fwf-l-free__container {
+  padding: 0 2em;
+}
 .fwf-l-free__container .fwf-c-free__header {
   text-transform: uppercase;
   font-weight: bold;
@@ -102,7 +105,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  font-size: 2em;
+  font-size: 1em;
   color: white;
   padding: .2em .3em;
 }

@@ -104,7 +104,7 @@ use \FWF\Includes\APIHelpers as APIHelpers;
 		
 		//idenitfy the current time slot so we can add an icon to display
 		//@params $appt_start, $appt_end, $current_moment
-		$slot_data['is_current'] = APIHelpers\is_current_res( $slot_data['from'], $slot_data['to'], $today_timeStamped );		
+		$slot_data['is_current'] = APIHelpers\is_current_res( $timeSlot['from'], $timeSlot['to'], $today_timeStamped );		
 		
 		array_push( $ReadyForFW, $slot_data );
 	}

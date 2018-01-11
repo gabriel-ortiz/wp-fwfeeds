@@ -46,9 +46,11 @@ body {
     text-transform: uppercase;
     font-weight: bold; }
 
-.fwf-l-free__container .fwf-c-free__header {
-  text-transform: uppercase;
-  font-weight: bold; }
+.fwf-l-free__container {
+  padding: 0 2em; }
+  .fwf-l-free__container .fwf-c-free__header {
+    text-transform: uppercase;
+    font-weight: bold; }
 
 .fwf-c-res-time-slot--current {
   background-color: #333f48;
@@ -56,7 +58,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
+  font-size: 1em;
   color: white;
   padding: .2em .3em; }
 

@@ -81,6 +81,7 @@ body{
 }
 
 .fwf-l-free__container{
+    padding: 0 2em;
     
     .fwf-c-free__header{
         @include bold-header;        
@@ -96,7 +97,7 @@ body{
     justify-content: center;
     align-items: center;
     //border-radius: 50%;
-    font-size: 2em;
+    font-size: 1em;
     color: white;
     padding: .2em .3em;
 }
