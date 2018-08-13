@@ -8,18 +8,23 @@
  */
 
 //Set up namespaces
-use FWF\Includes\SpaceAvailability as SpaceAvailability;
+use FWF\Includes\Libcal as LibCal;
 
 
 //get the query var value
-$room_id = get_query_var( 'room_availability' );
+$room_id = get_query_var( 'room-availability' );
+
+
 
 //insert into function
-$space_availability = SpaceAvailability\get_space_availability( $room_id );
+$space_availability = LibCal\get_room_availability( $room_id );
+
+
+
 
 //cache the output
 //var_dump( count($space_availability ) ); 
-if( count($space_availability ) <= 4 ){
+if( isset($space_availability  ) && count($space_availability ) <= 4 ){
   $container_height = 60;
 }else{
   $container_height = 100;
@@ -45,12 +50,14 @@ if( count($space_availability ) <= 4 ){
   <body>
   <section class="grid-y fwf-res-container" style="height:<?php echo $container_height ?>vh;">
     
-    <?php if($space_availability): foreach($space_availability as $space):?>
+    <?php if( count($space_availability) && isset( $space_availability ) ): foreach($space_availability as $space):?>
     
-      <?php if(array_key_exists( 'capacity', $space ) ) continue; ?>
+      <?php 
+      //skip this iteration if this is the description array
+      //if( array_key_exists( 'description' , $space ) ) continue; ?>
       
       <?php if( array_key_exists( 'confirm_num', $space ) ):?>
-        <div class="cell fwf-l-res-time-slot--occupied" style="flex-grow: <?php echo $space['30_min_seg']; ?> ">
+        <div class="cell fwf-l-res-time-slot--occupied" style="height: <?php echo ($space['30_min_seg'] * 2).'rem'; ?> ">
        
           <?php if($space['is_current']): ?>
           <div class="fwf-c-res-time-slot--current">
@@ -73,7 +80,7 @@ if( count($space_availability ) <= 4 ){
       <?php else: ?>
           <div class="cell fwf-l-res-time-slot--free" style="flex-grow: <?php echo $space['30_min_seg']; ?> ">
             
-          <?php if($space['is_current']): ?>
+          <?php if( array_key_exists( 'is_current', $space ) && $space['is_current'] == true  ): ?>
           <div class="fwf-c-res-time-slot--current">
               <i class="fa fa-map-marker fa-2x" aria-hidden="true"></i>
               <span>Now</span>

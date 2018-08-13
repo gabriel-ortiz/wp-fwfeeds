@@ -53,6 +53,11 @@ function fwf_callback_section_instagram_access_token(){
 	echo '<p>'. esc_html__('These settings enable you to Instagrams\'s API using an Access token.', 'fwf') .'</p>';
 }
 
+// callback: Instagram
+function fwf_callback_section_instagram_library_hours(){
+	echo '<p>'. esc_html__('These settings enable you query the Library Hours API for a specific library.', 'fwf') .'</p>';
+}
+
 // callback: text field
 function fwf_callback_field_text( $args ) {
 	

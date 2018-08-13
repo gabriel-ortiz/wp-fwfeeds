@@ -75,6 +75,13 @@ function fwf_register_settings() {
 	);	
 
 
+	add_settings_section( 
+		$id         = 'fwf_section_library_hours', 
+		$title      = esc_html__('Id\'s for library hours API', 'gp_wp'), 
+		$callback   = '\FWF\Admin\InputCallbacks\fwf_callback_section_instagram_access_token', 
+		$page       = 'fwf'
+	);
+
 	/**
 	 * 
 	 * And now for the fields
@@ -103,7 +110,7 @@ function fwf_register_settings() {
 //LibCal 1.1 Endpoint Access Token Credentials
 	add_settings_field(
 		$id         = 'libcal_client_id',
-		$title      = esc_html__('LibGuide Client ID', 'fwf'),
+		$title      = esc_html__('LibCal Client ID', 'fwf'),
 		$callback   = '\FWF\Admin\InputCallbacks\fwf_callback_field_text',
 		$page       = 'fwf', 
 		$section    = 'fwf_section_libcal_1.1', 
@@ -112,7 +119,7 @@ function fwf_register_settings() {
 	
 	add_settings_field(
 		$id         = 'libcal_client_secret',
-		$title      = esc_html__('LibGuide Client Secret', 'fwf'),
+		$title      = esc_html__('LibCal Client Secret', 'fwf'),
 		$callback   = '\FWF\Admin\InputCallbacks\fwf_callback_field_text',
 		$page       = 'fwf', 
 		$section    = 'fwf_section_libcal_1.1', 
@@ -159,7 +166,7 @@ function fwf_register_settings() {
 		$args       = [ 'id' => 'libguide__access_token_client_secret', 'label' => esc_html__('	Unique key for this site used to identify authorized requests.', 'fwf') ]
 	);
 	
-//instagram Access Toke Key	
+//instagram Access Token Key	
 	add_settings_field(
 		$id         = 'insta_key',
 		$title      = esc_html__('Instagram Key', 'fwf'),
@@ -169,9 +176,26 @@ function fwf_register_settings() {
 		$args       = [ 'id' => 'insta_key', 'label' => esc_html__('Unique ID for Instagram Authorization', 'fwf') ]
 	);	
 	
-	
-	
 
+//Insitutional ID for Library Hours API feed	
+	add_settings_field(
+		$id         = 'fwf_Hours_iid',
+		$title      = esc_html__('Library Institutional ID', 'fwf'),
+		$callback   = '\FWF\Admin\InputCallbacks\fwf_callback_field_text',
+		$page       = 'fwf', 
+		$section    = 'fwf_section_library_hours', 
+		$args       = [ 'id' => 'fwf_Hours_iid', 'label' => esc_html__('Library Insitutional ID', 'fwf') ]
+	);
+	
+//Insitutional ID for Library Hours API feed	
+	add_settings_field(
+		$id         = 'fwf_Hours_lid',
+		$title      = esc_html__('Library Location ID', 'fwf'),
+		$callback   = '\FWF\Admin\InputCallbacks\fwf_callback_field_text',
+		$page       = 'fwf', 
+		$section    = 'fwf_section_library_hours', 
+		$args       = [ 'id' => 'fwf_Hours_lid', 'label' => esc_html__('Library Location ID', 'fwf') ]
+	);
     
 } 
 

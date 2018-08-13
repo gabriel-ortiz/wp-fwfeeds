@@ -10,6 +10,11 @@ use \FWF\Includes\LibraryHours              as LibraryHours;
 use \FWF\Includes\Instagram                 as Instagram;
 
 
+//exit if file is called directly
+if( ! defined('ABSPATH') ){
+    exit;
+}
+
 /**
  * 
  * This page defines the routes and endpoints for custom API requests
@@ -34,14 +39,14 @@ add_action( 'rest_api_init', function () {
     ); 
     
     //register library hours retrieval
-    register_rest_route( 'fwf/v1', '/library-hours/(?P<id>\d+)', array(
+    register_rest_route( 'fwf/v1', '/library-hours/(?P<iid>\d+)/(?P<lid>\d+)', array(
         'methods'   => 'GET',
-        'callback'  => __NAMESPACE__ . "\\process_libhours_assets"
+        'callback'  => __NAMESPACE__ . "\\process_libhours"
         )
     );    
     
     //register libcal bookings retrieval
-    register_rest_route( 'fwf/v1', '/space-bookings/(?P<id>\d+)', array(
+    register_rest_route( 'fwf/v1', '/get-space-status/(?P<id>\d+)', array(
         'methods'   => 'GET',
         'callback'  => __NAMESPACE__ . "\\process_space_bookings"
         )
@@ -81,7 +86,7 @@ function process_instagram( $data ){
 function process_space_availability( $data ){
     $space_id  = $data['id'];
 
-    $space_availability = SpaceAvailability\get_space_availability( $space_id );
+    $space_availability = LibCal\get_room_availability( $space_id );
     
     if( is_wp_error( $space_availability ) ){
         return 'ERROR: ' . $space_availability->get_error_message();
@@ -97,7 +102,7 @@ function process_space_bookings(  $data ){
     
     $space_id  = $data['id'];
 
-    $libcal_spaces = Spaces\get_spaces( $space_id );
+    $libcal_spaces = Spaces\get_space_status( $space_id );
     
     if( is_wp_error( $libcal_spaces ) ){
         return 'ERROR: ' . $libcal_spaces->get_error_message();
@@ -108,11 +113,13 @@ function process_space_bookings(  $data ){
 }
 
 
-function process_libhours_assets( $data ){
+function process_libhours( $data ){
     //get the ID number of the room
-    $libhours_id  = $data['id'];    
+    $iid    = $data['iid'];    
+    $lid    = $data['lid'];
     
-    $libhours_results = LibraryHours\get_library_hours( $libhours_id );
+    
+    $libhours_results = LibraryHours\get_library_hours( $iid, $lid );
     
     if( is_wp_error( $libhours_results ) ){
         return 'ERROR: ' . $libhours_results->get_error_message();
@@ -128,6 +135,7 @@ function process_libcal_request(  $data ){
     $libcal_id  = $data['id'];
 
     $libcal_test = LibCal\get_libcal_events($libcal_id);
+   
     
     if( is_wp_error( $libcal_test ) ){
         return 'ERROR: ' . $libcal_test->get_error_message();

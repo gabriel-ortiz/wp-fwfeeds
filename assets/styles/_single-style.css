@@ -4,12 +4,12 @@
 *
 */
 html {
-  font-size: 1.2vh;
-  height: 100vh; }
+  font-size: 2vh;
+  height: 100%; }
 
 body {
   font-family: "Gotham Narrow A", "Gotham Narrow B", Arial, sans-serif;
-  height: 100vh;
+  height: 100%;
   background-color: #efefef; }
 
 .fwf-res-container {
@@ -35,10 +35,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1em;
-    padding: .2em .3em;
+    font-size: .9em;
+    padding: .4em;
     color: #333f48;
-    background-color: #efefef; }
+    border: 1px solid #333f48; }
 .fwf-l-res-time-slot--occupied {
   justify-content: center;
   display: flex;
@@ -54,10 +54,11 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1em;
-    padding: .2em .3em;
-    color: white;
-    background-color: #333f48; }
+    font-size: .9em;
+    padding: .4em;
+    color: #333f48;
+    border: 1px solid #333f48;
+    background: rgba(255, 255, 255, 0.7); }
 
 .fwf-l-occupied__container {
   padding: 0 2em; }

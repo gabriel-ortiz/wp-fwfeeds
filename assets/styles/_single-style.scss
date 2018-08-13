@@ -25,19 +25,19 @@ $call-to-action:        #29abe2;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1em;
-    padding: .2em .3em;
+    font-size: .9em;
+    padding: .4em;
 }
 
 //styling
 html{
-    font-size: 1.2vh;
-    height: 100vh;
+    font-size: 2vh;
+    height: 100%;
 }
 
 body{
     font-family: "Gotham Narrow A", "Gotham Narrow B", Arial, sans-serif;
-    height: 100vh;
+    height: 100%;
     background-color: $light-gray;    
 }
 
@@ -70,7 +70,7 @@ body{
         .fwf-c-res-time-slot--current{
             @include now-styling;
             color: $midnight;
-            background-color: $light-gray;
+            border: 1px solid $midnight;
         }        
         
     }
@@ -84,12 +84,14 @@ body{
     margin: .1em;
     box-shadow: 0 10px 6px -6px rgba( $midnight-40, .6 );
     padding: 1em;
-    border: 1px solid $midnight-40;    
+    border: 1px solid $midnight-40;  
+
     
     .fwf-c-res-time-slot--current{
         @include now-styling;
-        color: $white;
-        background-color: $midnight;
+        color: $midnight;
+        border: 1px solid $midnight;
+        background: rgba( $white, 0.7 );
     }    
         
     }

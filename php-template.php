@@ -8,6 +8,11 @@ namespace FWF\Title;
  * 
  */
  
+ //exit if file is called directly
+if( ! defined('ABSPATH') ){
+    exit;
+}
+ 
  function setup(){
     
     $n = function( $function ){

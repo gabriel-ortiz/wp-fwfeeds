@@ -38,26 +38,24 @@ function testimonial_custom_template($single) {
 }
 
 function url_for_room_availability() {
-    add_rewrite_rule( '^room_availability/(.+)/?$', 'index.php?room_availability=$matches[1]', 'top' );
+    add_rewrite_rule( '^room-availability/(.+)/?$', 'index.php?room-availability=$matches[1]', 'top' );
     
     
 }
 
 function room_availability_query_var ( $vars ) {
-    $vars[] = 'room_availability';
+    $vars[] = 'room-availability';
     return $vars;
 }
 
 function template_for_room_availability( $template ) {
     
-    $avail_check = $_GET['room_availability'];
-    
-
-    if ( isset( $avail_check )  ) {
+    if( isset( $_GET['room-availability'] ) ){
+        $avail_check = $_GET['room-availability'];    
         $template = FWF_PUBLIC . 'view-availability.php';
-        return $template;
+        return $template;        
     }else{
-        return $template;
+        return $template;        
     }
 
 

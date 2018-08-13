@@ -7,6 +7,11 @@ use DateTimeZone;
 
 use \FWF\Includes\APIHelpers as APIHelpers;
 
+//exit if file is called directly
+if( ! defined('ABSPATH') ){
+    exit;
+}
+
 /**
  * 
  * Set up defaults and run hooks and filters on setup
@@ -21,6 +26,87 @@ use \FWF\Includes\APIHelpers as APIHelpers;
     
     //add_action( 'hook_action', $n('this_function') );
  }
+
+
+function get_space_status( $space_id ){
+     
+    //get today's date
+    $today				= new DateTime('now', new DateTimeZone('America/Los_Angeles'));
+    $formatted_date 	= $today->format('Y-m-d');
+    $formatted_time 	= $today->format('g:i a');
+    $today_timeStamped	= $today->getTimestamp();
+    $current_confirm_number = false;
+    
+	$result = array(
+		'status_img'			=> '',
+		'current_res_time'		=> '' ,
+		'next_avail_start'		=> '',
+		'remaining_revs'		=> '',
+		//'current_confirm'		=> ''
+
+		);    
+    
+	//get the room availability
+    $space_availability =	\FWF\Includes\LibCal\get_room_availability( $space_id ); 
+    
+    //var_dump($space_availability);
+    
+    //exit from function if we don't find any instances of appointments
+    if( isset( $space_availability['error'] ) || array_key_exists( 'error', $space_availability ) ){
+    	$result['current_status']	= 'Unavailable';
+    	$result['error_message']	= $space_availability['error'];
+    	return $result;
+    }
+   
+    //get the current confirmation number
+    foreach( $space_availability as $key => $booking ){
+    	
+    	if( array_key_exists( 'status', $booking ) && $booking['status'] == 'Confirmed' && array_key_exists( 'confirm_num', $booking ) && $booking['is_current'] == true ){
+    		$current_confirm_number = $booking['confirm_num'];
+    		break;
+    	}
+    }
+    
+    //get the next available start time
+    foreach( $space_availability as $key => $booking ){
+    	if( $booking['status'] == 'Available' ){
+    		$result['next_avail_start'] = $booking['fromDate'];
+    		break;
+    	}
+    }
+    
+    //locate current time in array and check for status
+    $current_appt_status = array_filter( $space_availability,  function( $val ){
+    	if( array_key_exists( 'is_current', $val ) ){
+     		return $val['is_current'] == true;   		
+    	}
+    } );
+    
+   $result['status_img']		= ( $current_appt_status[0]['status'] == "Available" ) ? FWF_IMAGES .'TCCL-available.png' : FWF_IMAGES.'TCCL-in-use.png';
+   $result['current_res_time']	= ( $current_appt_status[0]['status'] == "Available" ) ? '' : $current_appt_status[0]['rendered_time'];
+   $result['current_status']	= ( $current_confirm_number ) ? 'CONFIRM #: ' . $current_confirm_number : 'Available';
+
+    //number of bookings
+    $reservation_bookings		= array_filter( $space_availability,  function( $val ){
+    	if( array_key_exists( 'status', $val ) ){
+    		return $val['status'] == 'Confirmed';
+    	}
+    } );
+    $result['remaining_revs'] = count( $reservation_bookings );
+    
+	//$result['name'] = array_column(  $space_availability, 'name' );
+	//locate the name
+	foreach( $space_availability as $space ){
+		if( array_key_exists( 'name', $space ) ){
+			$result['name'] = $space['name'];
+		}
+	}
+    
+    return $result;
+
+ }
+
+
 
 function get_spaces( $space_id ){
      
@@ -48,7 +134,7 @@ function get_spaces( $space_id ){
     // turn array/object into query string
 	$params = http_build_query( $params );
 	
-	
+	//send the request
 	$request = wp_remote_get( 'https://api2.libcal.com/1.1/space/bookings?' . $params , array(
 		'headers' => array(
 			'Authorization' => 'Bearer '. $access_token
@@ -57,11 +143,12 @@ function get_spaces( $space_id ){
 		'debug'  => true
 	) );
 	
-	//var_dump($request);
-	
-	if ( is_wp_error ( $request ) ) {
+
+	if ( $request['response']['code'] !== (int)200 ) {
 		//return $request->get_error_message();
 		$ReadyForFW['error'] =  $request->get_error_message();
+		
+		return $ReadyForFW;
 		
 	} else {
 
@@ -78,35 +165,37 @@ function get_spaces( $space_id ){
         });
         
         
-		function get_current_appt_display( $current_time, $appt_array ){
+        return $bookings;
+        
+		function get_current_appt_display( $current_time, $space_availability ){
 			//loop through appointments and assign variables
 			$result = array(
 				'status_img'			=> '',
 				'current_res_time'		=> '' ,
 				'current_res_confirm'	=> '',
 				'next_avail_start'		=> '',
-				'num_of_revs'			=> '',
+				'remaining_revs'			=> '',
 
 				);
 				
-			//check if $appt_array has any value - if not then exit function because there are no appts to traverse
-			if( empty( $appt_array ) ){
+			//check if $space_availability has any value - if not then exit function because there are no appts to traverse
+			if( empty( $space_availability ) ){
 
 				$result = array(
 					'status_img'			=> 'availabile.jpg',
 					'current_res_time'		=> 'No current reservations' ,
 					'current_res_confirm'	=> 'N/A',
 					'next_avail_start'		=> 'Now',
-					'num_of_revs'			=> count( $appt_array )
+					'remaining_revs'			=> count( $space_availability )
 					);				
 				
 				return $result;	
 			}else{
-				$result['num_of_revs'] = count( $appt_array );
+				$result['remaining_revs'] = count( $space_availability );
 			}
 				
 			//If there are revs, check if we are currently in revs	
-			foreach( $appt_array as $key => $appt ){
+			foreach( $space_availability as $key => $appt ){
 
 				$appt_start 	= strtotime( $appt['fromDate'] );
 				$appt_end		= strtotime( $appt['toDate'] );
@@ -130,7 +219,7 @@ function get_spaces( $space_id ){
 				$result['status_img']			= 'in_use.jpg';
 				$result['current_res_time']		= $from . ' to ' . $to;
 				$result['current_res_confirm']	= $current_appt['bookId'];
-				$next_appt_data					= $appt_array[$current_key + 1];
+				$next_appt_data					= $space_availability[$current_key + 1];
 			}else{
 				//set all return text to show open availability
 				$result['status_img']			= 'available.jpg';
@@ -143,30 +232,30 @@ function get_spaces( $space_id ){
 			
 			
 			//if there are more events afterward, the get the end time of event, or show available if last event
-			end($appt_array);
-			$lastKey = key($appt_array);
+			end($space_availability);
+			$lastKey = key($space_availability);
 			
 			//check if we are in last event	
 			if( $lastKey != $current_key  ){
 				
 				var_dump( 'im in' );
-				reset( $appt_array );
+				reset( $space_availability );
 				
-				foreach( $appt_array as $key => $appt ){
+				foreach( $space_availability as $key => $appt ){
 					if( $key < $current_key)continue;
 					
 					var_dump( $key );
-					var_dump( array_key_exists( ($key + 1) , $appt_array ) );
-					if( array_key_exists( ($key + 1) , $appt_array ) ){
+					var_dump( array_key_exists( ($key + 1) , $space_availability ) );
+					if( array_key_exists( ($key + 1) , $space_availability ) ){
 						$current_end	= strtotime( $appt['toDate'] );
-						$next_start		= strtotime( $appt_array[$key + 1]['fromDate'] );
+						$next_start		= strtotime( $space_availability[$key + 1]['fromDate'] );
 						
 						var_dump( $current_end );
 						var_dump( $next_start );
 						
 						if( $current_end != $next_start ){
 							var_dump('this is the last break');	
-							$result['next_avail_start'] =  APIHelpers\fixDateTime( $appt_array[$key]['toDate'] );	
+							$result['next_avail_start'] =  APIHelpers\fixDateTime( $space_availability[$key]['toDate'] );	
 							
 						}else{
 							continue;
@@ -183,12 +272,15 @@ function get_spaces( $space_id ){
 			}else{
 				$result['next_avail_start'] = $current_appt['toDate'];
 				
-				reset($appt_array);
+				reset($space_availability);
 			}
 
 		return $result;
 			
 		};
+		
+		
+		
 		
 		$current_appt = get_current_appt_display( $today_timeStamped, $bookings );
 		$current_appt['current_time']	= $formatted_time;

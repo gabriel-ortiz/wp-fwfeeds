@@ -16,6 +16,9 @@ if( ! defined('ABSPATH') ){
     exit;
 }
 
+//set default timezone
+date_default_timezone_set('America/Los_Angeles');
+
 
 //useful global constants
 define( 'FWF_VERSION', '0.1.0');
@@ -27,11 +30,11 @@ define( 'FWF_LANG', plugin_dir_path( __FILE__ ).'languages/');
 define( 'FWF_LIBRARIES', plugin_dir_path( __FILE__ ).'Libraries/');
 
 //global style urls
-define('FWF_ASSETS', plugins_url().'/fwfeeds/assets/');
-define('FWF_IMAGES', plugins_url().'/fwfeeds/assets/images/');
-define('FWF_IMAGES_GEAR', plugins_url().'/fwfeeds/assets/images/gear-icon.png');
-define('FWF_IMAGES_CCL', plugins_url().'/fwfeeds/assets/images/Mudd1.jpg');
-define('FWF_DIST', plugins_url().'/fwfeeds/dist/');
+define('FWF_ASSETS', plugins_url().'/wp-fwfeeds/assets/');
+define('FWF_IMAGES', plugins_url().'/wp-fwfeeds/assets/images/');
+define('FWF_IMAGES_GEAR', plugins_url().'/wp-fwfeeds/assets/images/gear-icon.png');
+define('FWF_IMAGES_CCL', plugins_url().'/wp-fwfeeds/assets/images/Mudd1.jpg');
+define('FWF_DIST', plugins_url().'/wp-fwfeeds/dist/');
 
 if ( ! defined( 'MINUTE_IN_SECONDS' ) ) {
     define( 'MINUTE_IN_SECONDS',  60 );
@@ -103,3 +106,34 @@ add_action( 'plugins_loaded', 'fwf_load_textdomain' );
 
 
 
+/**
+ * Converts and console logs data from PHP on the front end
+ * 
+ * @param $data to log, $title
+ * 
+ * @todo - set up hook for displaying on admin side
+ *
+ * @return array|mixed|string|\WP_Error
+ */
+function debug_to_console( $data, $title = null) {
+	
+	//check for title and localize arguments
+	$fn_title = !empty( $title ) ? $title : 'From WP';
+	$fn_data = $data;
+	
+	add_action( 'wp_footer', function() use ($fn_title, $fn_data){
+		
+	    if( is_array($fn_data) || is_object($fn_data) ) {
+			echo "<script>
+					if(console.debug!='undefined'){
+						console.log('{$fn_title}:' , ". json_encode($fn_data) .");
+					}</script>" ;
+		} else {
+			echo "<script>
+					if(console.debug!='undefined'){	
+						console.log('{$fn_title}: ".$fn_data."');
+					}</script>" ;
+		}		
+		
+	} );
+}

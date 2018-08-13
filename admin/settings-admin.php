@@ -24,7 +24,7 @@ function fwf_add_sublevel_menu() {
 	add_submenu_page(
 		$parent_slug    = 'options-general.php',
 		$page_title     = esc_html__('FourWinds Feed Settings', 'fwf'),
-		$menu_title     = esc_html__('fwf', 'fwf'),
+		$menu_title     = esc_html__('FourWinds Feeds', 'fwf'),
 		$capability     = 'manage_options',
 		$menu_slug      = 'fwf',
 		$function       = '\FWF\Admin\Settings\fwf_display_settings_page'
