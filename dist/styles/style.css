@@ -31,9 +31,6 @@ body {
 }
 
 .fwf-l-res-time-slot--free {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -72,12 +69,9 @@ body {
   font-size: .9em;
   padding: .1em .3em;
   color: #333f48;
-  border: 1px solid rgba(51, 63, 72, 0.4);
+  border: 1px solid rgba(51, 63, 72, 0.2);
 }
 .fwf-l-res-time-slot--occupied {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;

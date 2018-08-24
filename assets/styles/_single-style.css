@@ -20,7 +20,6 @@ body {
     text-align: center; }
 
 .fwf-l-res-time-slot--free {
-  flex: 1;
   justify-content: center;
   display: flex;
   flex-direction: row;
@@ -39,9 +38,8 @@ body {
     font-size: .9em;
     padding: .1em .3em;
     color: #333f48;
-    border: 1px solid rgba(51, 63, 72, 0.4); }
+    border: 1px solid rgba(51, 63, 72, 0.2); }
 .fwf-l-res-time-slot--occupied {
-  flex: 1;
   justify-content: center;
   display: flex;
   flex-direction: row;

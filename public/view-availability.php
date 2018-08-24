@@ -56,12 +56,12 @@ if( isset($space_availability  ) && count($space_availability ) <= 4 ){
       //if( array_key_exists( 'description' , $space ) ) continue; ?>
       
       <?php if( array_key_exists( 'confirm_num', $space ) ):?>
-        <?php $occupied_height =  ($space['30_min_seg'] * 2.5).'rem'; ?>
-        <div class="fwf-l-res-time-slot--occupied" style="min-height:<?php echo $occupied_height; ?>">
+        <?php $occupied_height =  ($space['30_min_seg'] * 2).'rem'; ?>
+        <div class="cell fwf-l-res-time-slot--occupied" style="min-height:<?php echo $occupied_height; ?>">
        
           <?php if($space['is_current']): ?>
           <div class="fwf-c-res-time-slot--current">
-              <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> 
+              <i class="fa fa-clock-o" aria-hidden="true"></i> 
               <span>Now</span>
           </div>            
           <?php endif;?>
@@ -78,11 +78,11 @@ if( isset($space_availability  ) && count($space_availability ) <= 4 ){
            
         </div>    
       <?php else: ?>
-          <div class="fwf-l-res-time-slot--free">
+          <div class="cell fwf-l-res-time-slot--free">
             
           <?php if( array_key_exists( 'is_current', $space ) && $space['is_current'] == true  ): ?>
           <div class="fwf-c-res-time-slot--current">
-              <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-clock-o" aria-hidden="true"></i>
               <span>Now</span>
           </div>            
           <?php endif;?>            

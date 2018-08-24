@@ -57,7 +57,6 @@ body{
     
 
     &--free{
-    flex: 1;
     justify-content: center;
     display: flex;
     flex-direction: row;
@@ -72,13 +71,13 @@ body{
         .fwf-c-res-time-slot--current{
             @include now-styling;
             color: $midnight;
-            border: 1px solid rgba( $midnight, .4 );
+            border: 1px solid rgba( $midnight, .2 );
         }        
         
     }
     
     &--occupied{
-    flex: 1;
+
     justify-content: center;
     display: flex;
     flex-direction: row;        
