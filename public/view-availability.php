@@ -21,7 +21,6 @@ $space_availability = LibCal\get_room_availability( $room_id );
 
 
 
-
 //cache the output
 //var_dump( count($space_availability ) ); 
 if( isset($space_availability  ) && count($space_availability ) <= 4 ){
@@ -48,7 +47,7 @@ if( isset($space_availability  ) && count($space_availability ) <= 4 ){
 
   </head>
   <body>
-  <section class="grid-y fwf-res-container" style="height:<?php echo $container_height ?>vh;">
+  <section class="grid-y fwf-res-container">
     
     <?php if( count($space_availability) && isset( $space_availability ) ): foreach($space_availability as $space):?>
     
@@ -57,11 +56,12 @@ if( isset($space_availability  ) && count($space_availability ) <= 4 ){
       //if( array_key_exists( 'description' , $space ) ) continue; ?>
       
       <?php if( array_key_exists( 'confirm_num', $space ) ):?>
-        <div class="cell fwf-l-res-time-slot--occupied" style="height: <?php echo ($space['30_min_seg'] * 2).'rem'; ?> ">
+        <?php $occupied_height =  ($space['30_min_seg'] * 2.5).'rem'; ?>
+        <div class="fwf-l-res-time-slot--occupied" style="min-height:<?php echo $occupied_height; ?>">
        
           <?php if($space['is_current']): ?>
           <div class="fwf-c-res-time-slot--current">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 
+              <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i> 
               <span>Now</span>
           </div>            
           <?php endif;?>
@@ -78,11 +78,11 @@ if( isset($space_availability  ) && count($space_availability ) <= 4 ){
            
         </div>    
       <?php else: ?>
-          <div class="cell fwf-l-res-time-slot--free" style="flex-grow: <?php echo $space['30_min_seg']; ?> ">
+          <div class="fwf-l-res-time-slot--free">
             
           <?php if( array_key_exists( 'is_current', $space ) && $space['is_current'] == true  ): ?>
           <div class="fwf-c-res-time-slot--current">
-              <i class="fa fa-map-marker fa-2x" aria-hidden="true"></i>
+              <i class="fa fa-clock-o fa-2x" aria-hidden="true"></i>
               <span>Now</span>
           </div>            
           <?php endif;?>            

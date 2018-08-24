@@ -26,7 +26,7 @@ $call-to-action:        #29abe2;
     justify-content: center;
     align-items: center;
     font-size: .9em;
-    padding: .4em;
+    padding: .1em .3em;
 }
 
 //styling
@@ -54,8 +54,10 @@ body{
 }
 
 .fwf-l-res-time-slot{
+    
 
     &--free{
+    flex: 1;
     justify-content: center;
     display: flex;
     flex-direction: row;
@@ -70,12 +72,13 @@ body{
         .fwf-c-res-time-slot--current{
             @include now-styling;
             color: $midnight;
-            border: 1px solid $midnight;
+            border: 1px solid rgba( $midnight, .4 );
         }        
         
     }
     
     &--occupied{
+    flex: 1;
     justify-content: center;
     display: flex;
     flex-direction: row;        
@@ -90,7 +93,7 @@ body{
     .fwf-c-res-time-slot--current{
         @include now-styling;
         color: $midnight;
-        border: 1px solid $midnight;
+        border: 1px solid rgba( $midnight, .4 );
         background: rgba( $white, 0.7 );
     }    
         
